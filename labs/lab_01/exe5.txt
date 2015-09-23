@@ -1,0 +1,3 @@
+1. In the supplied exercise 5, the exercise with the Tri and Triangle classes, there are two classes.
+
+2. The entry point of the program is in the "Tri" class. This is because the Tri class is the class that has the main function.
