@@ -153,33 +153,61 @@ public class questions {
 		System.out.println("Please enter R(ock), S(cissor) or P(aper)");		
 		Scanner scan = new Scanner(System.in);		
 		
-		String personPlay;
-		
-		String computerPlay;
-		int computerInt; //Randomly generate number used to determine computer's play
+		String personPlay = "b";
+		String computerPlay = "b";
+		int computerInt; 
 		
 		//Get player's play -- note that this is stored as a string
-		while ( !(personPlay.equalsIgnoreCase("r")
-					&& personPlay.equalsIgnoreCase("p") 
-					&& personPlay.equalsIgnoreCase("s"))
-		personPlay = scan.next();
+		while ( !(personPlay.equalsIgnoreCase("R")
+					|| personPlay.equalsIgnoreCase("P") 
+					|| personPlay.equalsIgnoreCase("S"))){
+					
+			System.out.print("> ");
+			personPlay = scan.next();
+		}
 		
 		//Make player's play uppercase for ease of comparison
-		personPlay.toUpperCase();
+		personPlay = personPlay.toUpperCase();
+		//Randomly generate number used to determine computer's play
 		//Generate computer's play (0,1,2)
 		Random ran = new Random();
 		computerInt = (ran.nextInt() % 3);
 		//Translate computer's randomly generated play to string
-		switch (computerInt){
-				case 0:
-					computerPlay = "R";
-				case 1:
-					computerPlay = "P";
-				case 2:
-					computerPlay = "S";
-
+		if (computerInt == 0){
+			computerPlay = "R";
+		}	else if (computerInt == 1){
+			computerPlay = "P";
+		} else{
+			computerPlay = "S";
 		}
+
 		// Figure out who won
+		// If they are same it's a tie
+		if (computerPlay.equals(personPlay))	System.out.println("It was a tie.");
 		
+		// situations in which computer wins
+		else if (computerPlay.equals("R") && personPlay.equals("S"))
+		 	compWin(computerPlay, personPlay);
+		else if (computerPlay.equals("P") && personPlay.equals("R")) 
+		 	compWin(computerPlay, personPlay);
+		else if (computerPlay.equals("S") && personPlay.equals("P"))
+			compWin(computerPlay, personPlay);
+
+		// situations in which player wins
+		else if (computerPlay.equals("R") && personPlay.equals("P")) 
+			playWin(computerPlay, personPlay);
+		else if (computerPlay.equals("P") && personPlay.equals("S"))
+			playWin(computerPlay, personPlay);
+		else 
+			playWin(computerPlay, personPlay);
+	}
+
+	void compWin(String v1, String v2){
+		System.out.println("Computer had " + v1 + " you had " + v2 
+			+ " You lose.");	
+	}
+	void playWin(String v1, String v2){
+		System.out.println("Computer had " + v1 + " you had " + v2
+			+ " You win.");	
 	}
 }
