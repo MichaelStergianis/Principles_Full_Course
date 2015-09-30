@@ -1,0 +1,169 @@
+import java.io.*;
+import java.util.Scanner;
+
+class Username
+{
+	private static String fname;
+	private static String lname;
+	private static char[] uname;
+	private int uint;
+	private static DataB db = null;
+
+	private static char[] incrementChar(char[] curr, int i){
+		if ((curr[curr.length - i]) < '9'){
+			(curr[curr.length - i])++;
+			return curr;
+		}
+		else{
+			curr[curr.length - i] = '0';
+			return incrementChar(curr, i+1);
+		}
+	}
+
+	private static void createUname(){
+		uname = new char[9];
+		char[] temp = new char[9];
+		temp[0] = fname.charAt(0);
+		if (lname.length() >= 5){
+			for (int i = 0; i < 5; ++i)
+				temp[i+1] = lname.charAt(i);
+			for (int i = 0; i < 6; ++i)
+				temp[i] = Character.toLowerCase(temp[i]);
+			String temp_uname = new String(temp);
+			temp_uname = db.compareUname(temp_uname, 6);
+			if (temp_uname != null){
+				for (int i = 0; i < temp_uname.length(); ++i)
+					uname[i] = temp_uname.charAt(i);
+				uname = incrementChar(uname, 1);
+			} else {
+				for (int i = 6; i < 9; ++i){
+					temp[i] = '0';
+				}
+				for (int i = 0; i < temp.length; ++i){
+					uname[i] = temp[i];
+				}
+			}
+		} else{
+			int lname_len = lname.length();
+			for (int i = 0; i < lname_len; ++i)
+				temp[i+1] = lname.charAt(i);
+			for (int i = 0; i < 6; ++i)
+				temp[i] = Character.toLowerCase(temp[i]);
+			String temp_uname = new String(temp);
+			temp_uname = db.compareUname(temp_uname, (lname_len + 1));
+			if (temp_uname != null){
+				uname = temp_uname.toCharArray();
+				uname = incrementChar(uname, 1);
+			} else {
+				for (int i = (lname_len+1); i < 9; ++i){
+					temp[i] = '0';
+				}
+				for (int i = 0; i < temp.length; ++i){
+					uname[i] = temp[i];
+				}
+			}
+		}
+	}
+
+	public static void getUname(){
+		Scanner s = new Scanner(System.in);
+		System.out.print("Input the user's first name: ");
+		fname = s.next();
+		System.out.print("Input the user's last name: ");
+		lname = s.next();
+	}
+	public static boolean confirmUname(){
+		getUname();
+		createUname();
+		System.out.print("Your username is:  ");
+		System.out.println(uname);
+		System.out.println("Your firstname is: " + fname);
+		System.out.println("Your lastname is:  " + lname);
+		String conf = getConf();
+		while ( !( conf.equals("y") || conf.equals("n"))){
+			conf = getConf();
+		}
+		if (conf.equals("y")){
+			return true;
+		} else {
+			return confirmUname();
+		}
+	}
+	public static String getConf(){
+		Scanner s = new Scanner(System.in);
+		System.out.println("Is this acceptalble (y/n)? ");
+		String conf = s.next();
+		conf.toLowerCase();
+		return conf;
+	}
+
+	public static void main(String[] args){
+		db = new DataB();
+		db.load("username.db");
+		db.read();
+		// db.printLines();
+		confirmUname();
+		// System.out.println(uname);
+	}
+}
+
+class DataB
+{
+	private int num_elem;
+	private String[] lines;
+	private File db = null;
+	private Scanner s;
+	private FileReader in = null;
+
+	public void load(String arg){
+		db = new File(arg);
+		if (!db.isFile()){
+			System.out.println(arg + " does not exist. creating.");
+			try{
+				db.createNewFile();
+				db.setWritable(true);
+			} catch (IOException e){
+				e.printStackTrace();
+			}
+		} else{
+			System.out.println(arg + " found.");
+		}
+	}
+
+	public void read(){
+		try{
+			s = new Scanner(db);
+		} catch(FileNotFoundException e){
+			e.printStackTrace();
+		}
+		// read the first line, the number of elements
+		if (s.hasNextInt()){
+			num_elem = s.nextInt();
+			lines = new String[num_elem * 3];
+			for (int i = 0; i < (num_elem * 3); ++i){
+				lines[i] = s.next();
+			}
+		} else{
+			System.out.println("First element was not interpreted as int");
+		}
+	}
+	public void write(){
+
+	}
+
+	public String compareUname(String uname, int length){
+		String temp = null;
+		String sub = null;
+		for (int i = 0; i < num_elem; ++i){
+			sub = lines[i*3+2].substring(0, length);
+			if ( uname.contains(sub) )
+				temp = lines[(i * 3)+2];
+		}
+		return temp;
+	}
+
+	public void printLines(){
+		for (int i = 0; i < lines.length; ++i)
+			System.out.println(lines[i]);
+	}
+}
