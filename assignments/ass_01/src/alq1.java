@@ -103,6 +103,8 @@ class Username
 		db.read();
 		// db.printLines();
 		confirmUname();
+		db.incrementElem();
+		db.writeFile(fname, lname, uname);
 		// System.out.println(uname);
 	}
 }
@@ -144,11 +146,40 @@ class DataB
 				lines[i] = s.next();
 			}
 		} else{
+			num_elem = 0;
+			lines = new String[0];
 			System.out.println("First element was not interpreted as int");
 		}
 	}
-	public void write(){
+	public void writeFile(String fname, String lname, char[] uname){
+		FileWriter fw;
+		String elem_string = Integer.toString(num_elem);
+		try{
+			fw = new FileWriter(db, false);
+			fw.write(elem_string, 0, elem_string.length());
+			fw.write("\n");
+			for (int i = 0; i < lines.length; ++i){
+				fw.write(lines[i]);
+				fw.write("\n");
+				if ( i % 10 == 0){
+					fw.flush();
+				}
+			}
+			fw.write(fname);
+			fw.write("\n");
+			fw.write(lname);
+			fw.write("\n");
+			fw.write(uname);
+			fw.write("\n");
+			fw.flush();
+			fw.close();
+		} catch (IOException e){
+			System.out.println(e);
+		}
+	}
 
+	public void incrementElem(){
+		num_elem++;
 	}
 
 	public String compareUname(String uname, int length){
