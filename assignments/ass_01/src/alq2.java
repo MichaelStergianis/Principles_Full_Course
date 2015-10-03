@@ -30,7 +30,7 @@ class Primes{
 		arg = Integer.parseInt(args[0]);
 		startTime = System.nanoTime();
 		if (arg <= 1){
-			System.out.println("There are no primes that exist below 1.");
+			System.out.println("There are no primes that exist at or below 1.");
 		} else if (arg == 2){
 			endTime = System.nanoTime();
 			System.out.println(2 + " took ("

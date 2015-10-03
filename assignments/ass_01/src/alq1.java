@@ -9,6 +9,8 @@ class Username
 	private int uint;
 	private static DataB db = null;
 
+	// This increments the char, but handles the case that 9 does not by
+	// default increment to 0, so it recursively increments needed char(s)
 	private static char[] incrementChar(char[] curr, int i){
 		if ((curr[curr.length - i]) < '9'){
 			(curr[curr.length - i])++;
@@ -20,22 +22,28 @@ class Username
 		}
 	}
 
+	// this was a pain in the ass to make, but it works for any length of name
 	private static void createUname(){
 		uname = new char[9];
 		char[] temp = new char[9];
 		temp[0] = fname.charAt(0);
+		// if the last name is more than 5 chars we use our standard 0 pad
 		if (lname.length() >= 5){
 			for (int i = 0; i < 5; ++i)
 				temp[i+1] = lname.charAt(i);
 			for (int i = 0; i < 6; ++i)
 				temp[i] = Character.toLowerCase(temp[i]);
 			String temp_uname = new String(temp);
+			// is the temp uname already in use? if so, how many times?
 			temp_uname = db.compareUname(temp_uname, 6);
 			if (temp_uname != null){
+				// if it is, change uname to be our most up to date uname
+				// that is similar, then, increment the number it uses
 				for (int i = 0; i < temp_uname.length(); ++i)
 					uname[i] = temp_uname.charAt(i);
 				uname = incrementChar(uname, 1);
 			} else {
+				// if not, zeroes are fine
 				for (int i = 6; i < 9; ++i){
 					temp[i] = '0';
 				}
@@ -43,6 +51,7 @@ class Username
 					uname[i] = temp[i];
 				}
 			}
+		// if the last name is less than 5 characters, we pad more
 		} else{
 			int lname_len = lname.length();
 			for (int i = 0; i < lname_len; ++i)
@@ -151,6 +160,7 @@ class DataB
 			System.out.println("First element was not interpreted as int");
 		}
 	}
+
 	public void writeFile(String fname, String lname, char[] uname){
 		FileWriter fw;
 		String elem_string = Integer.toString(num_elem);
