@@ -7,7 +7,6 @@ public class lab4 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		System.out.println("Please enter a number (1~2) to select a question:");
 		Scanner scan = new Scanner(System.in);
 		questions q = new questions();

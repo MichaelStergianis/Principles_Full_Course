@@ -15,6 +15,15 @@ public class questions {
 			rev_input[ (rev_input.length - 1) - i] = char_input[i];
 		}
 		System.out.println(rev_input);
+		char[] case_switch = new char[char_input.length];
+		for (int i = 0; i < case_switch.length; ++i){
+			if (Character.isUpperCase(char_input[i])){
+				case_switch[i] = Character.toLowerCase(char_input[i]);
+			} else if (Character.isLowerCase(char_input[i]){
+				case_switch[i] = Character.toUpperCase(char_input[i]);
+			}
+		}
+		System.out.println(case_switch);
 	}
 	
 	void q2()
