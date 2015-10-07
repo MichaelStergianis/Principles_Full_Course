@@ -73,4 +73,23 @@ public class Student{
 		result += ("GPA: " + fmt.format(GPA) + "\n");
 		return result;
 	}
+	public int compareTo(Student s2){
+		if (this.name.compareTo(s2.getName()) > 0)
+			return 1;
+		else if (this.name.compareTo(s2.getName()) < 0)
+			return -1;
+		if (this.address.compareTo(s2.getAddress()) > 0)
+			return 2;
+		else if (this.address.compareTo(s2.getAddress()) < 0)
+			return -2;
+		if (this.major.compareTo(s2.getMajor()) > 0)
+			return 3;
+		else if (this.major.compareTo(s2.getMajor()) < 0)
+			return -3;
+		if (this.GPA > s2.getGPA())
+			return 4;
+		else if (this.GPA < s2.getGPA())
+			return -4;
+		return 0;
+	}
 }
