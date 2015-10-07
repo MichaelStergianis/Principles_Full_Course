@@ -11,7 +11,7 @@ public class questions {
 		char[] char_input; 
 		char_input = input.toCharArray();
 		char[] rev_input = new char[char_input.length];
-		for (int i = 0; i < rev_input; ++i){
+		for (int i = 0; i < rev_input.length; ++i){
 			rev_input[ (rev_input.length - 1) - i] = char_input[i];
 		}
 		System.out.println(rev_input);
