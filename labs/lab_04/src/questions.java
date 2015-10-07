@@ -15,7 +15,6 @@ public class questions {
 			rev_input[ (rev_input.length - 1) - i] = char_input[i];
 		}
 		System.out.println(rev_input);
-		for (
 	}
 	
 	void q2()
