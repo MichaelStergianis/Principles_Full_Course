@@ -19,7 +19,7 @@ public class questions {
 		for (int i = 0; i < case_switch.length; ++i){
 			if (Character.isUpperCase(char_input[i])){
 				case_switch[i] = Character.toLowerCase(char_input[i]);
-			} else if (Character.isLowerCase(char_input[i]){
+			} else if (Character.isLowerCase(char_input[i])){
 				case_switch[i] = Character.toUpperCase(char_input[i]);
 			}
 		}
